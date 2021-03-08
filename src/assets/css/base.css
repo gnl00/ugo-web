@@ -1,0 +1,39 @@
+@import "./normalize.css";
+
+/* root 设置 */
+:root {
+    --color-text: #666;
+    --color-highlight-text: #42bbaa;
+    --color-tint: #42b983;
+    --color-background: #ffffff;
+    --font-size: 14px;
+    --line-height: 1.5;
+}
+
+/* 所有元素 及所有元素的前后设置 */
+*
+*::before, *::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    user-select: none; /* 禁止用户选中文字或图片 */
+    background-color: var(--color-background);
+    color: var(--color-text);
+    /* width: 100vh; 适应屏幕的宽度 */
+}
+
+a {
+    color: var(--color-text);
+    text-decoration: none; /* 所有的a标签内文字都不要有下划线*/
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
