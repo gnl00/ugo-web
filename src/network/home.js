@@ -1,8 +1,9 @@
 import {request} from "@/network/request";
 
-export function getHomeMultiData() {
+export function getHomeAllData() {
   return request({
-    url: '/home/multidata',
+    url: '/goo/index',
+    method: 'get'
   })
 }
 

@@ -1,12 +1,13 @@
 <template>
-  <main-tabbar-from-vant></main-tabbar-from-vant>
+  <main-tabbar></main-tabbar>
 </template>
 
 <script>
-import MainTabbar from "components/content/mainTabbar/MainTabbar";
-import MainTabbarFromVant from "@/components/content/mainTabbar/MainTabbarFromVant";
+
+import MainTabbar from "@/components/content/mainTabbar/MainTabbar";
+
 export default {
-  components: {MainTabbarFromVant, MainTabbar}
+  components: {MainTabbar}
 }
 </script>
 

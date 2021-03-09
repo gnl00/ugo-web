@@ -17,7 +17,7 @@ export function request(config) {
     config => {
       // console.log('请求成功',config)
 
-      console.log(store.state.num)
+      // console.log(store.state.num)
 
       // 拦截处理做完之后需要 return 放行请求
       return config
