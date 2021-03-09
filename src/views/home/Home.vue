@@ -1,16 +1,21 @@
 <template>
+  <!-- 导航栏 -->
   <navbar>
-    <template v-slot:left>
-      <i class="iconfont icon-fanhui"></i>
-    </template>
     <template v-slot:right>
       <i class="iconfont icon-gengduo"></i>
     </template>
   </navbar>
 
+  <!-- 轮播图 -->
   <swipe-view class="banner"></swipe-view>
 
+  <!-- 推荐视图 -->
   <recommend-view :recommends="recommends"></recommend-view>
+
+  <!-- 首页选项卡 -->
+  <tab-control :titles="['热门畅销', '今日新品', '历史精选']" @tab-click="tabCurrentIndex" ></tab-control>
+
+  <goods-list></goods-list>
 
   <div class="home">
     <h1>home page</h1>
@@ -34,6 +39,8 @@ import MainTabbar from "@/components/content/mainTabbar/MainTabbar";
 import Navbar from "@/components/content/navbar/Navbar";
 import RecommendView from "@/views/home/childComps/RecommendView";
 import SwipeView from "@/views/home/childComps/SwipeView";
+import TabControl from "@/components/content/tabControl/TabControl";
+import GoodsList from "@/components/content/goods/GoodsList";
 
 
 export default {
@@ -59,11 +66,22 @@ export default {
       })
     })
 
+    // 声明一个临时tabId变量
+    let temTabId = ref(0)
+
+    const tabCurrentIndex = (index) => {
+      temTabId.value = index
+    }
+
     return {
-      recommends
+      recommends,
+      tabCurrentIndex,
+      temTabId
     }
   },
   components: {
+    GoodsList,
+    TabControl,
     SwipeView,
     RecommendView,
     Navbar,

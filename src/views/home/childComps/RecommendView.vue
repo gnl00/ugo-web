@@ -1,9 +1,14 @@
 <template>
+  <div class="recommend-title">
+    <span>精品推荐</span>
+  </div>
   <div class="recommend">
     <div class="recommend-item" v-for="(item, index) in recommends" :key="item">
       <a @click.prevent="goRecommendDetail(item.id)" >
         <img :src="item.photo" :alt="item.name">
-        <div>{{item.name.slice(0, 8)}}</div>
+        <div>
+          <span>{{item.name.slice(0, 11)}}</span>
+        </div>
       </a>
     </div>
   </div>
@@ -43,22 +48,43 @@ export default {
 
 <style scoped lang="scss">
 
+.recommend-title {
+  margin-top: 8px;
+  background-color: white;
+  text-align: center;
+  border-radius: 5px;
+
+  span {
+    font-size: 18px;
+    height: 40px;
+    line-height: 40px;
+  }
+
+}
+
 .recommend {
   display: flex;
   text-align: center;
   font-size: 14px;
   // 上 右 下 左
-  padding: 20px 0 20px 0;
-  border-bottom: 5px solid #eeee;
+  padding: 0 0 8px 0;
+  border-bottom: 5px solid white;
 }
 
 .recommend-item {
+  background-color: white;
   flex: 1;
+  border: 2px solid #f6f6f6;
+  border-radius: 5px;
 
   img {
     width: 85%;
     height: auto;
     margin-bottom: 5px;
+  }
+
+  span {
+    font-size: 13px;
   }
 }
 

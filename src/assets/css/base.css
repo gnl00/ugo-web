@@ -4,8 +4,9 @@
 :root {
     --color-text: #666;
     --color-highlight-text: #42bbaa;
+    /* #42b983 */
     --color-tint: #42b983;
-    --color-background: #ffffff;
+    --color-background: #ECF0F1;
     --font-size: 14px;
     --line-height: 1.5;
 
