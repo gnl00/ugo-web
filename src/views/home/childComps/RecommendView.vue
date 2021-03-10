@@ -4,10 +4,10 @@
   </div>
   <div class="recommend">
     <div class="recommend-item" v-for="(item, index) in recommends" :key="item">
-      <a @click.prevent="goRecommendDetail(item.id)" >
-        <img :src="item.photo" :alt="item.name">
+      <a @click.prevent="goRecommendDetail(item.goods.id)" >
+        <img :src="item.picture" :alt="item.goods.name">
         <div>
-          <span>{{item.name.slice(0, 11)}}</span>
+          <span>{{item.goods.name.slice(0, 11)}}</span>
         </div>
       </a>
     </div>
@@ -55,7 +55,7 @@ export default {
   border-radius: 5px;
 
   span {
-    font-size: 18px;
+    font-size: 16px;
     height: 40px;
     line-height: 40px;
   }
@@ -83,8 +83,12 @@ export default {
     margin-bottom: 5px;
   }
 
-  span {
-    font-size: 13px;
+  div {
+    border-top: 1px solid #eeee;
+
+    span {
+      font-size: 13px;
+    }
   }
 }
 

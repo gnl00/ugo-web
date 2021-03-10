@@ -1,17 +1,25 @@
 <template>
   <div class="goods-item">
-    <img src="~assets/images/3.jpg" alt="">
+    <img :src="product.picture" :alt="product.goods.name">
     <div class="goods-info">
-      <p>name</p>
-      <span class="price"><small>￥</small>100.00</span>
-      <span class="collect"><i class="iconfont icon-shoucang"></i> 3</span>
+      <p>{{product.goods.name}}</p>
+      <span class="price"><small>￥</small>{{product.goods.price}}</span>
+      <span class="collect"><i class="iconfont icon-shoucang"></i>&nbsp;{{product.goods.collect}}</span>
     </div>
   </div>
 </template>
 
 <script>
 export default {
-  name: "GoodsListItem"
+  name: "GoodsListItem",
+  props: {
+    product: {
+      type: Object,
+      default() {
+        return {}
+      }
+    }
+  }
 }
 </script>
 
@@ -21,10 +29,11 @@ export default {
   width: 48%;
   padding-bottom: 20px;
   background-color: white;
+  border-bottom: 5px solid #eeeeee;
+  border-radius: 8px;
 
   img {
     width: 100%;
-    border-radius: 5px;
   }
 
   .goods-info {
@@ -34,7 +43,6 @@ export default {
 
     p {
       margin: 0 0 5px 0;
-      padding: 0;
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -45,7 +53,7 @@ export default {
       margin-right: 20px;
     }
     .collect {
-      font-size: 16px;
+      font-size: 15px;
     }
   }
 }

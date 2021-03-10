@@ -47,7 +47,15 @@ const routes = [
     meta: {
       title: 'Ugo | 个人中心'
     }
-  }
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: () => import('views/test/Test'),
+    meta: {
+      title: 'Ugo | Test'
+    }
+  },
 ]
 
 const router = createRouter({
