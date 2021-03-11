@@ -1,5 +1,5 @@
 <template>
-  <div class="tab-control">
+  <div id="tab-control" class="tab-control">
     <div class="tab-control-item" :class="{active: index == currentIndex}"
          v-for="(title, index) in titles" :key="index" @click="titleClick(index)" >
       <span>{{title}}</span>
@@ -49,16 +49,16 @@ export default {
 
 .tab-control {
   display: flex;
-  height: 45px;
   width: 100%;
   line-height: 40px;
   text-align: center;
   background-color: white;
 
-
   // 将选项卡固定
   position: sticky;
   top: 38px;
+
+  z-index: 9;
 }
 
 .tab-control-item {

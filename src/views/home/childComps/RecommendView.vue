@@ -5,7 +5,7 @@
   <div class="recommend">
     <div class="recommend-item" v-for="(item, index) in recommends" :key="item">
       <a @click.prevent="goRecommendDetail(item.goods.id)" >
-        <img :src="item.picture" :alt="item.goods.name">
+        <img v-lazy="item.picture[0]" :alt="item.goods.name">
         <div>
           <span>{{item.goods.name.slice(0, 11)}}</span>
         </div>

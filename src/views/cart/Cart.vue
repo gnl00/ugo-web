@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="cart" class="cart">
     <navbar>
       <template v-slot:left>
         <i class="iconfont icon-fanhui"></i>
@@ -9,8 +9,7 @@
         <i class="iconfont icon-bianji"></i>
       </template>
     </navbar>
-  </div>
-  <div class="cart">
+
     <h1>cart page</h1>
     <div>
       <img src="~assets/images/7.jpg">
@@ -21,6 +20,7 @@
 
 <script>
 import Navbar from "@/components/content/navbar/Navbar";
+
 export default {
   name: "Cart",
   components: {Navbar}

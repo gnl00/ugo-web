@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="profile" class="profile">
     <navbar>
       <template v-slot:left>
         <i class="iconfont icon-fanhui"></i>
@@ -9,8 +9,16 @@
         <i class="iconfont icon-shezhi"></i>
       </template>
     </navbar>
-  </div>
-  <div class="profile">
+
+    <div>
+      <van-grid>
+        <van-grid-item icon="photo-o" text="文字" />
+        <van-grid-item icon="photo-o" text="文字" />
+        <van-grid-item icon="photo-o" text="文字" />
+        <van-grid-item icon="photo-o" text="文字" />
+      </van-grid>
+    </div>
+
     <h1>profile page</h1>
     <div>
       <img src="~assets/images/9.jpg">

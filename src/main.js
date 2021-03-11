@@ -3,15 +3,38 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 // 按需引入vant组件
-import { Tabbar, TabbarItem, Button, Swipe, SwipeItem, PullRefresh } from 'vant';
+import { Swipe, SwipeItem, Search, Image as VanImage, Lazyload,
+  Badge, Sidebar, SidebarItem,Collapse, CollapseItem,Tab, Tabs,Card,Grid, GridItem,
+  Button, Tabbar, TabbarItem, PullRefresh } from 'vant';
 // 引入vant全局样式
 import 'vant/lib/index.css';
 
 createApp(App)
-  .use(Tabbar)
-  .use(TabbarItem)
-  .use(Button)
+  // 轮播图
   .use(Swipe)
   .use(SwipeItem)
+  // 搜索框
+  .use(Search)
+  // 图片样式
+  .use(VanImage)
+  // 图片懒加载
+  .use(Lazyload, {
+    // 加载时的默认图片
+    loading: require('./assets/images/default.png'),
+    lazyComponent: true,
+  })
+  .use(Badge)
+  .use(Sidebar)
+  .use(SidebarItem)
+  .use(Collapse)
+  .use(CollapseItem)
+  .use(Tab)
+  .use(Tabs)
+  .use(Card)
+  .use(Grid)
+  .use(GridItem)
+  .use(Button)
+  .use(Tabbar)
+  .use(TabbarItem)
   .use(PullRefresh)
   .use(store).use(router).mount('#app')

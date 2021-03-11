@@ -7,12 +7,12 @@ export function getHomeAllData(type = 'hot', page = 1) {
   })
 }
 
-export function getHomeGoods(type = 'hot', page = 1) {
+export function searchGoods(keyword) {
   return request({
-    url: '/goo/index?type=' + type + "&page=" + page,
+    url: '/goo/search',
+    method: 'get',
     params: {
-      type: type,
-      page: page
+      keyword
     }
   })
 }

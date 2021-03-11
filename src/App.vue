@@ -1,4 +1,15 @@
 <template>
+
+<!--  <router-view/>-->
+
+  <router-view v-slot="{ Component }">
+    <transition>
+      <keep-alive>
+        <component :is=" Component " />
+      </keep-alive>
+    </transition>
+  </router-view>
+
   <main-tabbar></main-tabbar>
 </template>
 
@@ -7,7 +18,9 @@
 import MainTabbar from "@/components/content/mainTabbar/MainTabbar";
 
 export default {
-  components: {MainTabbar}
+  components: {
+    MainTabbar,
+  }
 }
 </script>
 

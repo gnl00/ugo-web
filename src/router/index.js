@@ -54,7 +54,17 @@ const routes = [
     component: () => import('views/test/Test'),
     meta: {
       title: 'Ugo | Test'
-    }
+    },
+
+  },
+  {
+    path: '/test-v',
+    name: 'TestV',
+    component: () => import('views/test/TestVant'),
+    meta: {
+      title: 'Ugo | Test'
+    },
+
   },
 ]
 

@@ -48,5 +48,6 @@ export default {
 }
 
 .content {
+  height: 900px;
 }
 </style>

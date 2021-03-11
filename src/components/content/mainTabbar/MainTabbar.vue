@@ -9,7 +9,11 @@
       <div class="tab-bar-item-text">分类</div>
     </router-link>
     <router-link to="/cart" class="tab-bar-item">
-      <div><i class="iconfont icon-gouwuche"></i></div>
+      <div>
+        <van-badge :content="200" max="99">
+          <i class="iconfont icon-gouwuche"></i>
+        </van-badge>
+      </div>
       <div class="tab-bar-item-text">购物车</div>
     </router-link>
     <router-link to="/profile" class="tab-bar-item">
@@ -17,7 +21,6 @@
       <div class="tab-bar-item-text">我的</div>
     </router-link>
   </div>
-  <router-view/>
 </template>
 
 <script>

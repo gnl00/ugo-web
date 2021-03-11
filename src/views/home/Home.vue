@@ -1,36 +1,46 @@
 <template>
-  <div id="home">
+  <div id="home" class="home" ref="home">
     <!-- 导航栏 -->
     <navbar>
+      <template v-slot:left>
+        <span>Ugo</span>
+      </template>
+      <template v-slot:default>
+        <van-search
+            v-model="keyWord"
+            shape="round"
+            background="#4fc08d"
+            placeholder="请输入搜索关键词"
+        />
+      </template>
       <template v-slot:right>
         <i class="iconfont icon-gengduo"></i>
       </template>
     </navbar>
 
-    <main-scroll>
-      <!-- 轮播图 -->
-      <swipe-view class="banner"></swipe-view>
+    <!-- 轮播图 -->
+    <swipe-view class="banner" />
 
-      <!-- 推荐视图 -->
-      <recommend-view :recommends="recommends"></recommend-view>
+    <!-- 推荐视图 -->
+    <recommend-view :recommends="recommends" />
 
-      <!-- 首页选项卡 -->
-      <tab-control :titles="['热门畅销', '近日上新', '历史精选']" @tab-click="tabCurrentIndex" ></tab-control>
+    <!-- 首页选项卡 -->
+    <tab-control id="tab-control" :titles="['热门畅销', '近日上新', '历史精选']" @tab-click="tabCurrentIndex" />
 
-      <goods-list :goods="showGoods" ></goods-list>
+    <goods-list :goods="showGoods" />
 
-    </main-scroll>
+    <back-to-top v-show="showTapToTop" @backTop="backTop" />
 
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import {onMounted, ref, reactive, computed, watchEffect, nextTick } from 'vue'
-
-import {getHomeAllData} from "@/network/home";
+import {onMounted, ref, reactive, computed, watch , watchEffect, nextTick } from 'vue'
 
 import {Toast} from "vant";
+
+import {getHomeAllData, searchGoods} from "@/network/home";
 
 import MainTabbar from "@/components/content/mainTabbar/MainTabbar";
 import Navbar from "@/components/content/navbar/Navbar";
@@ -38,9 +48,7 @@ import RecommendView from "@/views/home/childComps/RecommendView";
 import SwipeView from "@/views/home/childComps/SwipeView";
 import TabControl from "@/components/content/tabControl/TabControl";
 import GoodsList from "@/components/content/goods/GoodsList";
-import Scroll from "@/components/common/scroll/Scroll";
-import MainScroll from "@/components/common/scroll/MainScroll";
-
+import BackToTop from "@/components/common/backToTop/BackToTop";
 
 export default {
   name: 'Home',
@@ -50,6 +58,8 @@ export default {
     }
   },
   setup() {
+
+    const keyWord = ref(null)
 
     const recommends = ref([])
 
@@ -77,11 +87,55 @@ export default {
       let type = ['hot', 'new', 'history']
       currentType.value = type[index]
 
+      // 滚动条跳转到指定高度
+      document.documentElement.scrollTop = 490
+
     }
 
     const showGoods = computed(() => {
       return goods[currentType.value].list
     })
+
+    const showTapToTop = ref(false)
+
+    const handleScroll = () => {
+
+      window.onscroll = () => {
+
+        // 变量scrollTop是滚动条滚动时，距离顶部的距离
+        let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+        // 变量windowHeight是可视区的高度
+        let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
+        // 变量scrollHeight是滚动条的总高度
+        let scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
+
+        // 是否显示tapToTop
+        if (scrollTop > 475){
+          showTapToTop.value = true
+        } else {
+          showTapToTop.value = false
+        }
+
+        if (((scrollTop+windowHeight) + 0.2).toString().slice(0,4) == scrollHeight.toString()){
+
+          let page = goods[currentType.value].page + 1;
+          getHomeAllData(currentType.value, page).then(res => {
+
+            if (res.data != null){
+              goods[currentType.value].list.push(...res.data.home.data)
+              goods[currentType.value].page = res.data.home.page
+            } else {
+              // console.log('data == null')
+              Toast('暂时没有更多数据啦~')
+            }
+
+          }).catch(err => {
+            console.log(err)
+          })
+
+        }
+      }
+    }
 
     onMounted(() => {
 
@@ -108,48 +162,51 @@ export default {
         console.log(err)
       })
 
+      handleScroll();
 
+    })
 
-      window.onscroll = function(){
-        //变量scrollTop是滚动条滚动时，距离顶部的距离
-        let scrollTop = document.documentElement.scrollTop||document.body.scrollTop;
-        //变量windowHeight是可视区的高度
-        let windowHeight = document.documentElement.clientHeight || document.body.clientHeight;
-        //变量scrollHeight是滚动条的总高度
-        let scrollHeight = document.documentElement.scrollHeight||document.body.scrollHeight;
-        //滚动条到底部的条件
-        if(scrollTop + windowHeight == scrollHeight){
+    watchEffect(() => {
 
-          console.log("到了底部");
-          console.log(currentType.value)
-          let nextPage = goods[currentType.value].page + 1
-          getHomeAllData(currentType.value, nextPage).then(res => {
+      // 搜索商品
+      if (keyWord.value != null && keyWord.value.trim() != '' ){
+        let searchWord = keyWord.value.trim()
+        console.log(searchWord)
 
-            if (res.data.home == null){
-              Toast('暂时么有更多数据啦')
-            } else {
-              goods[currentType.value].page = nextPage
-              goods[currentType.value].list.push(...res.data.home.data)
-            }
-
-          }).catch(err => {
-            console.log(err)
-          })
-        }
+        searchGoods(searchWord).then(res => {
+          console.log(res)
+        }).catch(err => {
+          console.log(err)
+        })
       }
 
     })
 
+    // watch(value, (newValue, oldValue) => {
+    //   console.log('newValue: ', newValue)
+    //   console.log('oldValue: ', oldValue)
+    // })
+
+
+    const backTop = () => {
+      console.log('back to top now')
+      document.getElementById('home').scrollIntoView({
+        behavior: "smooth"
+      })
+    }
+
     return {
+      keyWord,
       recommends,
       showGoods,
       tabCurrentIndex,
       currentType,
+      showTapToTop,
+      backTop,
     }
   },
   components: {
-    MainScroll,
-    Scroll,
+    BackToTop,
     GoodsList,
     TabControl,
     SwipeView,
@@ -162,6 +219,10 @@ export default {
 
 <style scoped lang="scss">
 #home {
+}
+
+.van-search {
+  height: 40px;
 }
 
 .banner {
