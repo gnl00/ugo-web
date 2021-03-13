@@ -1,5 +1,5 @@
 <template>
-  <div class="nav-bar">
+  <div id="nav-bar" class="nav-bar">
     <div class="left" @click="goBack">
       <slot name="left"></slot>
     </div>

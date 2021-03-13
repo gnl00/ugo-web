@@ -57,6 +57,7 @@ export default {
     const toGoodsDetail = (goods_id) => {
 
       console.log(goods_id)
+
       router.push({
         path: '/detail',
         query: {
@@ -70,11 +71,6 @@ export default {
       collectClick,
       toGoodsDetail
     }
-  },
-  methods: {
-  },
-  mounted() {
-    console.log('123333')
   }
 }
 </script>

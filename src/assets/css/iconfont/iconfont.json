@@ -13,6 +13,20 @@
       "unicode_decimal": 58897
     },
     {
+      "icon_id": "1089290",
+      "name": "客服",
+      "font_class": "buoumaotubiao10",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "3050493",
+      "name": "爱心",
+      "font_class": "love-b",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
       "icon_id": "4640798",
       "name": "首页",
       "font_class": "shouye",

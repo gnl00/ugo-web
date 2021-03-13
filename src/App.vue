@@ -1,11 +1,9 @@
 <template>
 
-<!--  <router-view/>-->
-
   <router-view v-slot="{ Component }">
     <transition>
-      <keep-alive>
-        <component :is=" Component " />
+      <keep-alive exclude="Detail" >
+        <component :is="Component" />
       </keep-alive>
     </transition>
   </router-view>
@@ -18,6 +16,7 @@
 import MainTabbar from "@/components/content/mainTabbar/MainTabbar";
 
 export default {
+  name: 'App',
   components: {
     MainTabbar,
   }

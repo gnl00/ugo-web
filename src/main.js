@@ -3,9 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 // 按需引入vant组件
-import { Swipe, SwipeItem, Search, Image as VanImage, Lazyload,
-  Badge, Sidebar, SidebarItem,Collapse, CollapseItem,Tab, Tabs,Card,Grid, GridItem,
-  Button, Tabbar, TabbarItem, PullRefresh } from 'vant';
+import { Swipe, SwipeItem, Search, Image as VanImage, Lazyload,Form,Field,
+  Badge, Sidebar, SidebarItem,Collapse, CollapseItem,Tab, Tabs,Card,Grid, GridItem,Button, Tag,
+  Tabbar, TabbarItem, PullRefresh } from 'vant';
 // 引入vant全局样式
 import 'vant/lib/index.css';
 
@@ -34,6 +34,9 @@ createApp(App)
   .use(Grid)
   .use(GridItem)
   .use(Button)
+  .use(Tag)
+  .use(Form)
+  .use(Field)
   .use(Tabbar)
   .use(TabbarItem)
   .use(PullRefresh)

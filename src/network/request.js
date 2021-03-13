@@ -1,3 +1,5 @@
+import { Notify } from 'vant';
+
 import axios from "axios";
 import store from '@/store/index'
 
@@ -11,13 +13,17 @@ export function request(config) {
   // 2. 添加拦截器
   //    1. 修改请求头中不符合服务器要求的项
   //    2. 发送网络请求时，显示加载动画，开始请求时开启，响应后关闭
-  //    3. 某些网络请求需要携带token，需要拦截请求添加
+
   // 请求拦截 1. 请求成功 2. 请求失败
   instance.interceptors.request.use(
     config => {
       // console.log('请求成功',config)
 
-      // console.log(store.state.num)
+      const token = window.localStorage.getItem('ugo_token')
+      if (token) {
+        console.log('setting header now...')
+        config.headers['Authorization'] = 'Bearer ' + token
+      }
 
       // 拦截处理做完之后需要 return 放行请求
       return config
@@ -29,18 +35,15 @@ export function request(config) {
     res => {
       // console.log('响应成功',res)
 
-      if (res.config.url.endsWith('login')){
-        let token = res.data.data
-        console.log('oldToken', store.state.token)
-        console.log('newToken', token)
-        store.commit('setToken', token)
-        res.data.data = null
-      }
-
       // 只需要返回data数据即可
       return res.data
     }, err => {
+      console.log(err)
       // console.log('响应失败',err)
+
+      // 处理服务器校验返回结果
+      // console.log(err.response.data.errors)
+      // Notify(err.response.data.errors[Object.keys(err.response.data.errors)[0]][0])
     }
   )
 

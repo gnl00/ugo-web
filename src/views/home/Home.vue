@@ -36,7 +36,7 @@
 
 <script>
 // @ is an alias to /src
-import {onMounted, ref, reactive, computed, watch , watchEffect, nextTick } from 'vue'
+import {onMounted, ref, reactive, computed, watch , watchEffect, nextTick, onDeactivated, onUpdated} from 'vue'
 
 import {Toast} from "vant";
 
@@ -90,6 +90,7 @@ export default {
       // 滚动条跳转到指定高度
       document.documentElement.scrollTop = 490
 
+      console.log('tabCurrentIndex')
     }
 
     const showGoods = computed(() => {
@@ -116,7 +117,10 @@ export default {
           showTapToTop.value = false
         }
 
-        if (((scrollTop+windowHeight) + 0.2).toString().slice(0,4) == scrollHeight.toString()){
+        // console.log('scrollHeight', scrollHeight)
+        // console.log('scrollTop + windowHeight', scrollTop + windowHeight)
+
+        if (scrollTop + windowHeight == scrollHeight){
 
           let page = goods[currentType.value].page + 1;
           getHomeAllData(currentType.value, page).then(res => {

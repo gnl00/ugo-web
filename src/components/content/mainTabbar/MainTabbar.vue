@@ -42,8 +42,8 @@ export default {
 #nav {
   padding: 5px;
   background-color: #f6f6f6;
-// 水平排布
-display: flex;
+  // 水平排布
+  display: flex;
   position: fixed;
   left: 0;
   right: 0;

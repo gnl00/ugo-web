@@ -6,6 +6,8 @@ const Category = () => import('views/category/Category')
 const Detail = () => import('views/detail/Detail')
 const Cart = () => import('views/cart/Cart')
 const Profile = () => import('views/profile/Profile')
+const Register = () => import('views/profile/Register')
+const Login = () => import('views/profile/Login')
 
 const routes = [
   {
@@ -46,6 +48,22 @@ const routes = [
     component: Profile,
     meta: {
       title: 'Ugo | 个人中心'
+    }
+  },
+  {
+    path: '/register',
+    name: 'Register',
+    component: Register,
+    meta: {
+      title: 'Ugo | 用户注册'
+    }
+  },
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
+    meta: {
+      title: 'Ugo | 用户登录'
     }
   },
   {

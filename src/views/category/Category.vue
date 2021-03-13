@@ -22,21 +22,14 @@
         <van-sidebar v-model="activeKey" class="left-menu">
 
           <van-collapse v-model="activeName">
-            <van-collapse-item v-for="(item, index) in categories"
-                               :title="item.category" :name="item.category">
-
-
-<!--              <van-collapse-item v-for="(item, index) in item.children"-->
-<!--                                 :title="item.category" :name="item.category">-->
-
-<!--                -->
-
-<!--              </van-collapse-item>-->
+            <van-collapse-item class="van-collapse-item" v-for="(item, index) in categories"
+                               :title="item.category" :name="item.category"  >
 
               <van-sidebar-item v-for="(item, index) in item.children"
                                 :title="item.category" @click="getGoodsByCategory(item.id)" />
 
             </van-collapse-item>
+
           </van-collapse>
         </van-sidebar>
         <div class="goods-list">
@@ -49,8 +42,7 @@
                 :desc="item.goods.name"
                 :title="item.goods.name"
                 :thumb="item.picture[0]"
-                origin-price="9999.00"
-            />
+                origin-price="9999.00" @click="toGoodsDetail(item.goods.id)"/>
 
           </div>
         </div>
@@ -62,6 +54,7 @@
 
 <script>
 import {ref, reactive, onMounted, computed} from 'vue'
+import {useRouter} from 'vue-router'
 
 import {getAllCategories, getGoodsBySort} from 'network/category'
 
@@ -115,10 +108,10 @@ export default {
       // 综合排序 销量排序 价格排序
       let sort_arr = ['comp', 'sales', 'price']
       currentSort.value = sort_arr[index]
-      console.log('排序: ', sort_arr[index])
-      console.log('分类id: ', currentCategoryId.value)
+      // console.log('排序: ', sort_arr[index])
+      // console.log('分类id: ', currentCategoryId.value)
       getGoodsBySort(currentCategoryId.value, currentSort.value).then(res => {
-        console.log(res)
+        // console.log(res)
 
         if (res.data != null && res.data != '' && res.data != goods[currentSort.value].list){
           goods[currentSort.value].list = res.data
@@ -132,11 +125,11 @@ export default {
 
     const getGoodsByCategory = (categoryId) => {
       currentCategoryId.value = categoryId
-      console.log('要获取的商品分类id: ', categoryId)
-      console.log('要获取的商品排序: ', currentSort.value)
+      // console.log('要获取的商品分类id: ', categoryId)
+      // console.log('要获取的商品排序: ', currentSort.value)
 
       getGoodsBySort(categoryId, currentSort.value).then(res => {
-        console.log(res)
+        // console.log(res)
 
         if (res.data != null && res.data != ''){
           goods[currentSort.value].list = res.data
@@ -150,7 +143,7 @@ export default {
 
     onMounted(() => {
       getGoodsBySort(3, currentSort.value).then(res => {
-        console.log(res)
+        // console.log(res)
 
         if (res.data != null && res.data != ''){
           goods[currentSort.value].list = res.data
@@ -165,12 +158,24 @@ export default {
       return goods[currentSort.value].list
     })
 
+    const router = useRouter();
+
+    const toGoodsDetail = (id) => {
+      router.push({
+        path: '/detail',
+        query: {
+          goods_id: id
+        }
+      })
+    }
+
     return {
       activeKey,
       getGoodsByCategory,
       tabClick,
       currentSort,
-      showGoods
+      showGoods,
+      toGoodsDetail
     }
   }
 }
@@ -191,7 +196,8 @@ export default {
   display: flex;
 
   .order {
-    height: 50px;
+    text-align: center;
+    height: 55px;
     flex: 1;
     float: right;
     z-index: 9;
@@ -220,4 +226,10 @@ export default {
   }
 }
 
+</style>
+
+<style lang="scss">
+.van-collapse-item__content {
+  padding: 0;
+}
 </style>

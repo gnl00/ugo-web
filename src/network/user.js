@@ -1,12 +1,29 @@
 import { request } from "@/network/request";
 
-export function login(name, password) {
+export function register(user) {
+  return request({
+    url: '/cus/register',
+    method: 'post',
+    data: {
+      user
+    }
+  })
+}
+
+export function login(user) {
   return request({
     url: '/cus/login',
     method: 'post',
     data: {
-      name: name,
-      password: password
+      username: user.username,
+      password: user.password
     }
+  })
+}
+
+export function logout() {
+  return request({
+    url: '/cus/logout',
+    method: 'post'
   })
 }
