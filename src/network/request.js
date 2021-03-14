@@ -1,13 +1,15 @@
-import { Notify } from 'vant';
+import { Notify, Toast } from 'vant';
 
 import axios from "axios";
+
+import router from '../router'
 import store from '@/store/index'
 
 export function request(config) {
   // 1. 创建实例
   const instance = axios.create({
     baseURL: 'http://localhost:8888/ugo/',
-    timeout: 5000,
+    timeout: 5000
   })
 
   // 2. 添加拦截器
@@ -20,8 +22,9 @@ export function request(config) {
       // console.log('请求成功',config)
 
       const token = window.localStorage.getItem('ugo_token')
+      // console.log('token', token)
       if (token) {
-        console.log('setting header now...')
+        // console.log('setting header now...')
         config.headers['Authorization'] = 'Bearer ' + token
       }
 
@@ -35,11 +38,18 @@ export function request(config) {
     res => {
       // console.log('响应成功',res)
 
+      if (res.data.code != 200) {
+        Toast.fail(res.data.msg)
+      }
+
       // 只需要返回data数据即可
       return res.data
     }, err => {
-      console.log(err)
-      // console.log('响应失败',err)
+      console.log('响应失败',err)
+
+      if (err.response.statusCode != 200) {
+        Toast.fail(err.response.statusText)
+      }
 
       // 处理服务器校验返回结果
       // console.log(err.response.data.errors)

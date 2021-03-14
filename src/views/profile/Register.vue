@@ -72,7 +72,7 @@ export default {
   components: {Navbar},
   setup() {
 
-    const router = useRouter;
+    const router = useRouter();
 
     const user_info = reactive({
       username: '',
@@ -100,7 +100,8 @@ export default {
               router.push({
                 path: '/login'
               })
-            }, 1500)
+            }, 500)
+
           }
 
         }).catch(err => {

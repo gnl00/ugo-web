@@ -46,10 +46,13 @@
 <script>
 import {ref,reactive,toRefs,onMounted} from 'vue'
 import {useRouter} from 'vue-router'
+import {useStore} from 'vuex'
 
 import { Toast,Notify } from 'vant';
 
 import {login} from "@/network/user";
+
+import {SETISLOGIN} from "@/store/mutations-types";
 
 import Navbar from "@/components/content/navbar/Navbar";
 
@@ -58,7 +61,8 @@ export default {
   components: {Navbar},
   setup() {
 
-    const router = useRouter;
+    const router = useRouter();
+    const store = useStore();
 
     const user_info = reactive({
       username: '',
@@ -71,10 +75,11 @@ export default {
 
         if (res.code == 200) {
           // 登录成功
+
           // 1. 将token保存到 window.localStorage setItem(key, value) getItem(key)
           // 2. vuex设置变量 isLogin
-
           window.localStorage.setItem('ugo_token', res.data)
+          store.commit(SETISLOGIN, true)
 
           Toast.success("登录成功！")
 
@@ -83,7 +88,8 @@ export default {
 
           setTimeout(() => {
             router.go(-1)
-          }, 1500)
+          }, 500)
+
         } else {
           Notify(res.msg)
         }

@@ -74,10 +74,12 @@
 <script>
 import {ref, reactive, onMounted,onUpdated, watchEffect} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
+import {useStore} from 'vuex'
 
 import {Toast} from 'vant'
 
 import {getGoodsById} from "@/network/detail";
+import {addCart} from "@/network/cart";
 
 import Navbar from "@/components/content/navbar/Navbar";
 import GoodsList from "@/components/content/goods/GoodsList";
@@ -88,6 +90,7 @@ export default {
   setup() {
     const route = useRoute();
     const router = useRouter();
+    const store = useStore();
 
     let goods_id = ref(0)
 
@@ -141,8 +144,22 @@ export default {
       Toast('客服功能努力开发中...')
     }
 
-    const addCartClick = () => {
-      Toast('商品加入购物车成功！')
+    const addCartClick = (goodsId) => {
+
+
+      addCart(goodsId, 1).then(res => {
+        console.log(res)
+
+        if (res.code == 200) {
+
+          store.dispatch('updateCartCount')
+
+          Toast('商品加入购物车成功！')
+        }
+
+      }).catch(err => {
+        console.log(err)
+      })
     }
 
     const buyNowClick = () => {
@@ -204,6 +221,7 @@ export default {
   }
   .button-area {
     position: absolute;
+    top: 0;
     right: 0;
   }
 }

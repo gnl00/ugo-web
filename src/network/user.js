@@ -1,5 +1,11 @@
 import { request } from "@/network/request";
 
+export function hello() {
+  return request({
+    url: '/test/hello'
+  })
+}
+
 export function register(user) {
   return request({
     url: '/cus/register',

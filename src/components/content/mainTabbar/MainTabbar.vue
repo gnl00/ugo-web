@@ -10,7 +10,7 @@
     </router-link>
     <router-link to="/cart" class="tab-bar-item">
       <div>
-        <van-badge :content="200" max="99">
+        <van-badge :content="$store.state.cart.count" :max="99">
           <i class="iconfont icon-gouwuche"></i>
         </van-badge>
       </div>
@@ -24,12 +24,14 @@
 </template>
 
 <script>
+import store from '@/store'
 
 export default {
   name: "MainTabbar",
   data() {
     return {
       active: 0,
+      cartCount: store.state.cart.count
     };
   },
   components: {

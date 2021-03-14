@@ -3,7 +3,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 // 按需引入vant组件
-import { Swipe, SwipeItem, Search, Image as VanImage, Lazyload,Form,Field,
+import { Swipe, SwipeItem, Search, Image as VanImage, Lazyload,Form,Field,Icon,Progress,Col, Row,Circle,SwipeCell,
   Badge, Sidebar, SidebarItem,Collapse, CollapseItem,Tab, Tabs,Card,Grid, GridItem,Button, Tag,
   Tabbar, TabbarItem, PullRefresh } from 'vant';
 // 引入vant全局样式
@@ -37,6 +37,12 @@ createApp(App)
   .use(Tag)
   .use(Form)
   .use(Field)
+  .use(Icon)
+  .use(Progress)
+  .use(Col)
+  .use(Row)
+  .use(Circle)
+  .use(SwipeCell )
   .use(Tabbar)
   .use(TabbarItem)
   .use(PullRefresh)

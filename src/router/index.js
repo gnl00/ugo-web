@@ -1,4 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import store from '../store'
+
+import {Notify} from 'vant'
 
 // 懒加载按需导入组件
 const Home = () => import('views/home/Home')
@@ -39,7 +42,8 @@ const routes = [
     name: 'Cart',
     component: Cart,
     meta: {
-      title: 'Ugo | 购物车'
+      title: 'Ugo | 购物车',
+      isAuthRequired: true
     }
   },
   {
@@ -47,7 +51,8 @@ const routes = [
     name: 'Profile',
     component: Profile,
     meta: {
-      title: 'Ugo | 个人中心'
+      title: 'Ugo | 个人中心',
+      isAuthRequired: true
     }
   },
   {
@@ -93,12 +98,19 @@ const router = createRouter({
 
 router.beforeEach((to, from, next) => {
 
-  // 如果没有登录，在导航守卫直接跳到login
-
-  next();
-
   document.title = to.meta.title;
 
+  // 判断跳转的目的需不需要登录
+  // 如果没有登录，在导航守卫直接跳到login
+  if (to.meta.isAuthRequired && store.state.user.isLogin === false ) {
+    Notify('请先登录')
+    return next('/login')
+  } else {
+
+    store.dispatch('updateCartCount')
+
+    next();
+  }
 })
 
 export default router
