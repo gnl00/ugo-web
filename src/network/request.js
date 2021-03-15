@@ -38,9 +38,10 @@ export function request(config) {
     res => {
       // console.log('响应成功',res)
 
-      if (res.data.code != 200) {
-        Toast.fail(res.data.msg)
-      }
+      // if (res.data.code != 200) {
+      //   console.log('12333')
+      //   Toast.fail(res.data.msg)
+      // }
 
       // 只需要返回data数据即可
       return res.data

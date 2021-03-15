@@ -25,7 +25,7 @@
       </template>
     </van-card>
 
-    <van-tabs v-model="active">
+    <van-tabs class="detail-menu" v-model="active">
       <van-tab title="商品概述">
         <div class="goods-detail" v-html="goods.info.description" />
       </van-tab>
@@ -108,7 +108,7 @@ export default {
       document.documentElement.scrollTop = 0
 
       // 获取到跳转到当前页面的goods_id
-      goods_id.value = route.query.goods_id
+      goods_id.value = route.query.id
 
       getGoodsById(goods_id.value).then(res => {
         // console.log(res)
@@ -146,20 +146,24 @@ export default {
 
     const addCartClick = (goodsId) => {
 
+      if (store.state.user.isLogin) {
+        addCart(goodsId, 1).then(res => {
+          console.log(res)
 
-      addCart(goodsId, 1).then(res => {
-        console.log(res)
+          if (res.code == 200) {
 
-        if (res.code == 200) {
+            store.dispatch('updateCartCount')
 
-          store.dispatch('updateCartCount')
+            Toast('商品加入购物车成功！')
+          }
 
-          Toast('商品加入购物车成功！')
-        }
+        }).catch(err => {
+          console.log(err)
+        })
+      } else {
+        Toast.fail("请先登录！")
+      }
 
-      }).catch(err => {
-        console.log(err)
-      })
     }
 
     const buyNowClick = () => {
@@ -191,8 +195,13 @@ export default {
   }
 }
 
-.goods-detail {
+.detail-menu {
+  position: absolute;
+  width: 100%;
+}
 
+.goods-similar, .goods-detail {
+  margin-bottom: 80px;
 }
 
 .footer-menu {

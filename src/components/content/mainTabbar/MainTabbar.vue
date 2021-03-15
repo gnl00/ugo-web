@@ -35,6 +35,9 @@ export default {
     };
   },
   components: {
+  },
+  updated() {
+    this.cartCount = store.state.cart.count
   }
 }
 </script>

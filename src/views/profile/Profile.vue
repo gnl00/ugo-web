@@ -10,30 +10,19 @@
       </template>
     </navbar>
 
-    <div id="header" class="header">
+    <div id="header" class="header" style="padding-bottom: 10px">
+      <van-tag round  size="big" style="margin-right: 5px" type="danger">VIP5</van-tag>
 
-      <van-row>
-        <van-col span="12">
-          <van-image
-              round
-              fit="cover"
-              width="10rem"
-              height="10rem"
-              src="https://img01.yzcdn.cn/vant/cat.jpeg"
-          />
-        </van-col>
-        <van-col span="12">
-          <van-col span="12">
-            <van-tag round  size="big" style="margin-right: 5px" type="danger">VIP5</van-tag>
-            <van-tag plain type="warning">购物达人</van-tag>
-          </van-col>
+      <van-image
+          round
+          fit="cover"
+          width="10rem"
+          height="10rem"
+          :src="require('@/assets/images/1.jpg')"
+      />
 
-        </van-col>
-      </van-row>
+      <van-tag plain type="warning">购物达人</van-tag>
 
-
-
-      <van-progress :percentage="78" stroke-width="8" />
 
     </div>
 
@@ -49,7 +38,7 @@
 
     <van-grid :gutter="1">
 
-      <van-grid-item icon="chat-o" text="消息" />
+      <van-grid-item icon="location-o" text="地址管理" />
       <van-grid-item icon="star-o" text="收藏" />
       <van-grid-item icon="coupon-o" text="优惠券" />
       <van-grid-item icon="browsing-history-o" text="最近访问" />
@@ -62,12 +51,7 @@
 
     <van-button round block type="danger" @click="logoutClick" :disabled="!allowLogoutClick">退出登录</van-button>
 
-    <h1>profile page</h1>
-    <button @click="helloClick">helloClick</button>
-    <div>
-      <img src="~assets/images/9.jpg">
-      <img src="~assets/images/10.jpg">
-    </div>
+
   </div>
 </template>
 
@@ -81,7 +65,7 @@ import {Toast} from 'vant'
 
 import {logout,hello} from "@/network/user";
 
-import {SETISLOGIN} from "@/store/mutations-types";
+import {SETISLOGIN, ADDTOCART} from "@/store/mutations-types";
 
 import Navbar from "@/components/content/navbar/Navbar";
 
@@ -111,13 +95,6 @@ name: "Profile",
       }
     }
 
-    const helloClick = () => {
-      hello().then(res => {
-
-      }).catch(err => {
-
-      })
-    }
 
     const logoutClick = () => {
       logout().then(res => {
@@ -131,8 +108,8 @@ name: "Profile",
           store.commit(SETISLOGIN, false)
 
           Toast.success("退出成功~")
-
           checkLoginStatus()
+          store.commit(ADDTOCART, 0)
 
           setTimeout(() => {
             router.push({
@@ -157,8 +134,7 @@ name: "Profile",
 
     return {
       allowLogoutClick,
-      logoutClick,
-      helloClick
+      logoutClick
     }
   }
 }
@@ -187,7 +163,9 @@ name: "Profile",
   margin-top: 10px;
   margin-bottom: 10px;
 }
-
+.van-button {
+  margin-top: 20px;
+}
 </style>
 <style lang="scss">
 .van-image {
@@ -196,7 +174,5 @@ name: "Profile",
 .van-progress {
   margin-bottom: 15px;
 }
-.van-button {
-  margin-top: 20px;
-}
+
 </style>

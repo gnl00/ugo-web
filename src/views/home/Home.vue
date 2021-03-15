@@ -11,10 +11,11 @@
             shape="round"
             background="#4fc08d"
             placeholder="请输入搜索关键词"
+            @keydown.enter="onSearch"
         />
       </template>
       <template v-slot:right>
-        <i class="iconfont icon-gengduo"></i>
+        <div @click="onSearch">搜索</div>
       </template>
     </navbar>
 
@@ -37,10 +38,11 @@
 <script>
 // @ is an alias to /src
 import {onMounted, ref, reactive, computed, watch , watchEffect, nextTick, onDeactivated, onUpdated} from 'vue'
+import {useRouter} from 'vue-router'
 
 import {Toast} from "vant";
 
-import {getHomeAllData, searchGoods} from "@/network/home";
+import {getHomeAllData} from "@/network/home";
 
 import MainTabbar from "@/components/content/mainTabbar/MainTabbar";
 import Navbar from "@/components/content/navbar/Navbar";
@@ -58,6 +60,8 @@ export default {
     }
   },
   setup() {
+
+    const router = useRouter();
 
     const keyWord = ref(null)
 
@@ -172,19 +176,22 @@ export default {
 
     watchEffect(() => {
 
+    })
+
+    const onSearch = () => {
       // 搜索商品
       if (keyWord.value != null && keyWord.value.trim() != '' ){
         let searchWord = keyWord.value.trim()
-        console.log(searchWord)
-
-        searchGoods(searchWord).then(res => {
-          console.log(res)
-        }).catch(err => {
-          console.log(err)
+        // console.log(searchWord)
+        router.push({
+          path: '/search',
+          query: {
+            keyword: searchWord
+          }
         })
-      }
 
-    })
+      }
+    }
 
     // watch(value, (newValue, oldValue) => {
     //   console.log('newValue: ', newValue)
@@ -207,6 +214,7 @@ export default {
       currentType,
       showTapToTop,
       backTop,
+      onSearch
     }
   },
   components: {

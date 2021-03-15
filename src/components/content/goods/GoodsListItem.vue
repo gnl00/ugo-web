@@ -54,14 +54,12 @@ export default {
 
     }
 
-    const toGoodsDetail = (goods_id) => {
-
-      console.log(goods_id)
-
+    const toGoodsDetail = (id) => {
+      // console.log(id)
       router.push({
         path: '/detail',
         query: {
-          goods_id
+          id
         }
       })
     }

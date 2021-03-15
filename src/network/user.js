@@ -11,7 +11,7 @@ export function register(user) {
     url: '/cus/register',
     method: 'post',
     data: {
-      user
+      ...user
     }
   })
 }

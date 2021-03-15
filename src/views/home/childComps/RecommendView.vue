@@ -30,11 +30,11 @@ export default {
   setup() {
     const router = useRouter();
 
-    const goRecommendDetail = (goods_id) => {
+    const goRecommendDetail = (id) => {
       router.push({
         path: '/detail',
         query: {
-          goods_id
+          id
         }
       })
     }

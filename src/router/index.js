@@ -5,6 +5,7 @@ import {Notify} from 'vant'
 
 // 懒加载按需导入组件
 const Home = () => import('views/home/Home')
+const Search = () => import('views/search/Search')
 const Category = () => import('views/category/Category')
 const Detail = () => import('views/detail/Detail')
 const Cart = () => import('views/cart/Cart')
@@ -19,6 +20,14 @@ const routes = [
     component: Home,
     meta: {
       title: 'Ugo | 首页'
+    }
+  },
+  {
+    path: '/search',
+    name: 'Search',
+    component: Search,
+    meta: {
+      title: 'Ugo | 搜索商品'
     }
   },
   {
@@ -106,9 +115,7 @@ router.beforeEach((to, from, next) => {
     Notify('请先登录')
     return next('/login')
   } else {
-
     store.dispatch('updateCartCount')
-
     next();
   }
 })

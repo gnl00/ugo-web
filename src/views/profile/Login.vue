@@ -71,7 +71,7 @@ export default {
 
     const onSubmit = () => {
       login(user_info).then(res => {
-        console.log(res)
+        // console.log(res)
 
         if (res.code == 200) {
           // 登录成功
@@ -87,7 +87,9 @@ export default {
           user_info.password = ''
 
           setTimeout(() => {
-            router.go(-1)
+            router.push({
+              path: '/'
+            })
           }, 500)
 
         } else {

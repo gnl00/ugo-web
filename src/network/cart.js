@@ -20,13 +20,11 @@ export function addCart(goodsId, num) {
 }
 
 // 修改购物车信息
-export function modify(cusId,goodsId, num) {
+export function modifyCart(cartId, num) {
   return request({
-    url: '',
-    methods: 'put',
+    url: '/cart/' + cartId,
+    method: 'put',
     data: {
-      cusId,
-      goodsId,
       num
     }
   })
@@ -35,18 +33,18 @@ export function modify(cusId,goodsId, num) {
 // 选择商品的状态
 export function checkCart(data) {
   return request({
-    url: '',
+    url: '/cart/check',
+    method: 'patch',
     data
   })
 }
 
-export function delCartItem(cusId, goodsId) {
+export function delCartItem(cartId) {
   return request({
-    url: '',
-    methods: 'delete',
+    url: '/cart',
+    method: 'delete',
     data: {
-      cusId,
-      goodsId
+      cartId
     }
   })
 }

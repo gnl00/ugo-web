@@ -3,8 +3,9 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 // 按需引入vant组件
-import { Swipe, SwipeItem, Search, Image as VanImage, Lazyload,Form,Field,Icon,Progress,Col, Row,Circle,SwipeCell,
-  Badge, Sidebar, SidebarItem,Collapse, CollapseItem,Tab, Tabs,Card,Grid, GridItem,Button, Tag,
+import { Swipe, SwipeItem, Search, Image as VanImage, Lazyload,Form,Field,Icon,Progress,Col,Stepper,
+  Row,Circle,SwipeCell,Badge, Sidebar, SidebarItem,Collapse, CollapseItem,Tab, Tabs,Card,Grid,Checkbox,CheckboxGroup,
+  GridItem,Button, Tag,DropdownMenu, DropdownItem,Dialog,
   Tabbar, TabbarItem, PullRefresh } from 'vant';
 // 引入vant全局样式
 import 'vant/lib/index.css';
@@ -43,6 +44,12 @@ createApp(App)
   .use(Row)
   .use(Circle)
   .use(SwipeCell )
+  .use(DropdownMenu)
+  .use(DropdownItem)
+  .use(Checkbox)
+  .use(CheckboxGroup)
+  .use(Stepper)
+  .use(Dialog)
   .use(Tabbar)
   .use(TabbarItem)
   .use(PullRefresh)

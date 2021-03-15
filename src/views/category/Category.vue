@@ -164,7 +164,7 @@ export default {
       router.push({
         path: '/detail',
         query: {
-          goods_id: id
+          id
         }
       })
     }
