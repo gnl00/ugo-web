@@ -5,9 +5,6 @@
         <i class="iconfont icon-fanhui"></i>
       </template>
       <template v-slot:default>购物车管理</template>
-      <template v-slot:right>
-        <i class="iconfont icon-bianji"></i>
-      </template>
     </navbar>
     <div id="content" class="content">
       <van-checkbox-group ref="checkboxGroup" @change="groupChange" v-model="result" >
@@ -170,6 +167,9 @@ export default {
     // 打开滑块
     const openCell = (cartId) => {
       console.log('我开啦', cartId)
+
+      console.log(state.result.includes(cartId))
+
     }
 
     const checkAllClick = () => {

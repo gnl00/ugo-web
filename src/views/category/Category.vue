@@ -5,9 +5,6 @@
         <i class="iconfont icon-fanhui"></i>
       </template>
       <template v-slot:default>商品分类</template>
-      <template v-slot:right>
-        <i class="iconfont icon-gengduo"></i>
-      </template>
     </navbar>
 
     <div id="main">

@@ -25,7 +25,7 @@
     </van-dropdown-menu>
   </div>
   <div class="content">
-    <van-card style="margin-top: 1px; border-radius: 10px" v-for="(item, index) in goods_info.value" :key="item.goods.id"
+    <van-card style="margin-top: 1px; border-radius: 10px" v-for="(item, index) in list" :key="item.goods.id"
         :num="item.goods.amount"
         tag="热门"
         :price="Number(item.goods.price).toFixed(2)"
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import {ref, reactive, onMounted} from 'vue'
+import {ref, reactive, onMounted, toRefs} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 
 import {Toast} from 'vant'
@@ -59,7 +59,10 @@ export default {
     const route = useRoute();
     const router = useRouter();
 
-    const goods_info = reactive({})
+    const goods = reactive({
+      list: []
+    })
+
     const keyWord = ref('')
 
     const goodsMenu = ref([
@@ -85,7 +88,11 @@ export default {
         if (res.code != 200) {
           Toast.fail(res.msg)
         } else if (res.code == 200) {
-          goods_info.value = res.data
+
+          goods.list = res.data
+
+          console.log(goods)
+
         }
 
       }).catch(err => {
@@ -115,9 +122,12 @@ export default {
 
         if (res.code != 200) {
           Toast.fail(res.msg)
+
         } else if (res.code == 200) {
-          console.log(res.data)
-          goods_info.value = res.data
+          // console.log(res.data)
+
+
+          goods.list = res.data
         }
 
       }).catch(err => {
@@ -141,7 +151,7 @@ export default {
       orderValue,
       keyWord,
       clickSearch,
-      goods_info,
+      ...toRefs(goods),
       orderClick,
       toGoodsDetail
     }

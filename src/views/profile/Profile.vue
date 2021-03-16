@@ -5,13 +5,10 @@
         <i class="iconfont icon-fanhui"></i>
       </template>
       <template v-slot:default>个人中心</template>
-      <template v-slot:right>
-        <i class="iconfont icon-shezhi"></i>
-      </template>
     </navbar>
 
     <div id="header" class="header" style="padding-bottom: 10px">
-      <van-tag round  size="big" style="margin-right: 5px" type="danger">VIP5</van-tag>
+      <van-tag round size="big" style="margin-right: 5px" type="danger">VIP5</van-tag>
 
       <van-image
           round
@@ -27,26 +24,26 @@
     </div>
 
     <van-grid class="order" :gutter="1">
-
-      <van-grid-item icon="balance-list-o" text="待付款" />
-      <van-grid-item icon="clock-o" text="待发货" />
-      <van-grid-item icon="todo-list-o" text="待收货" />
-      <van-grid-item icon="comment-circle-o" text="评价" />
+      <van-grid-item icon="balance-list-o" text="待付款"/>
+      <van-grid-item icon="clock-o" text="待发货"/>
+      <van-grid-item icon="todo-list-o" text="待收货"/>
+      <van-grid-item icon="label-o" text="订单管理" @click="goTo('/order')" />
 
     </van-grid>
 
 
-    <van-grid :gutter="1">
+    <van-grid class="feature" :gutter="1">
 
-      <van-grid-item icon="location-o" text="地址管理" />
-      <van-grid-item icon="star-o" text="收藏" />
-      <van-grid-item icon="coupon-o" text="优惠券" />
-      <van-grid-item icon="browsing-history-o" text="最近访问" />
+      <van-grid-item icon="star-o" text="收藏" @click="goTo('/collect')" />
+      <van-grid-item icon="coupon-o" text="优惠券"/>
+      <van-grid-item icon="browsing-history-o" text="最近访问"/>
+      <van-grid-item icon="location-o" text="地址管理" @click="goTo('/address')" />
 
-      <van-grid-item icon="gem-o" text="钱包" />
-      <van-grid-item icon="shop-o" text="关注店铺" />
-      <van-grid-item icon="phone-o" text="售后" />
-      <van-grid-item icon="user-o" text="客服" />
+      <van-grid-item icon="shop-o" text="关注店铺"/>
+      <van-grid-item icon="phone-o" text="售后"/>
+      <van-grid-item icon="user-o" text="客服"/>
+      <van-grid-item icon="setting-o" text="账号管理"/>
+
     </van-grid>
 
     <van-button round block type="danger" @click="logoutClick" :disabled="!allowLogoutClick">退出登录</van-button>
@@ -56,30 +53,33 @@
 </template>
 
 <script>
-import {ref, onMounted, onUpdated, watchEffect} from 'vue'
+import {ref, reactive, toRefs, onMounted, onUpdated, watchEffect} from 'vue'
 import {useRouter} from 'vue-router'
 
 import {useStore} from 'vuex'
 
 import {Toast} from 'vant'
 
-import {logout,hello} from "@/network/user";
+import {logout} from "@/network/user";
 
 import {SETISLOGIN, ADDTOCART} from "@/store/mutations-types";
 
 import Navbar from "@/components/content/navbar/Navbar";
 
 export default {
-name: "Profile",
+  name: "Profile",
   data() {
-    return {
-    }
+    return {}
   },
   components: {Navbar},
   setup: function () {
 
     const router = useRouter();
     const store = useStore();
+
+    const state = reactive({
+      user: {}
+    })
 
     const allowLogoutClick = ref(false)
 
@@ -94,7 +94,6 @@ name: "Profile",
         allowLogoutClick.value = false;
       }
     }
-
 
     const logoutClick = () => {
       logout().then(res => {
@@ -132,9 +131,17 @@ name: "Profile",
       checkLoginStatus()
     })
 
+    const goTo = (path) => {
+      router.push({
+        path: path
+      })
+    }
+
     return {
+      ...toRefs(state),
       allowLogoutClick,
-      logoutClick
+      logoutClick,
+      goTo
     }
   }
 }
@@ -143,26 +150,28 @@ name: "Profile",
 <style scoped lang="scss">
 
 .profile {
-
   margin-top: var(--navbar-height);
 
   img {
     width: 100%;
   }
-
 }
 
 #header {
   background-color: white;
-  margin-top: 60px;
+  margin-top: 55px;
   margin-bottom: 10px;
   padding-top: 5px;
+  border-radius: 10px;
 }
+
 
 .order {
   margin-top: 10px;
   margin-bottom: 10px;
+
 }
+
 .van-button {
   margin-top: 20px;
 }
@@ -171,8 +180,8 @@ name: "Profile",
 .van-image {
   margin-bottom: 15px;
 }
+
 .van-progress {
   margin-bottom: 15px;
 }
-
 </style>

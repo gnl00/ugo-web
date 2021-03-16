@@ -4,7 +4,7 @@
       <template v-slot:left>
         <i class="iconfont icon-fanhui"></i>
       </template>
-      <template v-slot:default >商品详情 | {{goods.info.name}} </template>
+      <template v-slot:default>商品详情 | {{ goods.info.name }}</template>
     </navbar>
 
     <van-image
@@ -27,7 +27,7 @@
 
     <van-tabs class="detail-menu" v-model="active">
       <van-tab title="商品概述">
-        <div class="goods-detail" v-html="goods.info.description" />
+        <div class="goods-detail" v-html="goods.info.description"/>
       </van-tab>
       <van-tab title="相似商品">
         <div class="goods-similar">
@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import {ref, reactive, onMounted,onUpdated, watchEffect} from 'vue'
+import {ref, reactive, onMounted} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 
@@ -124,16 +124,20 @@ export default {
 
     const collectStatus = ref(false);
 
-    const collectClick = (goods_id) => {
+    const collectClick = (goodsId) => {
 
-      // console.log(goods_id)
-
-      collectStatus.value = !collectStatus.value
-      if (collectStatus.value) {
-        Toast('收藏成功！')
-      }else {
-        Toast('取消收藏成功！')
+      if (store.state.user.isLogin) {
+        collectStatus.value = !collectStatus.value
+        if (collectStatus.value) {
+          Toast('收藏成功！')
+        } else {
+          Toast('取消收藏成功！')
+        }
+      } else {
+        Toast.fail("请先登录")
       }
+
+
     }
 
     const shopClick = () => {
@@ -161,13 +165,17 @@ export default {
           console.log(err)
         })
       } else {
-        Toast.fail("请先登录！")
+        Toast.fail("请先登录")
       }
 
     }
 
     const buyNowClick = () => {
-      Toast('正在处理中...')
+      if (store.state.user.isLogin) {
+        Toast('正在处理中...')
+      } else {
+        Toast.fail("请先登录")
+      }
     }
 
     return {
@@ -228,6 +236,7 @@ export default {
     }
 
   }
+
   .button-area {
     position: absolute;
     top: 0;

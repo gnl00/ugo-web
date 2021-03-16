@@ -12,6 +12,8 @@ const Cart = () => import('views/cart/Cart')
 const Profile = () => import('views/profile/Profile')
 const Register = () => import('views/profile/Register')
 const Login = () => import('views/profile/Login')
+const Address = () => import('views/profile/Address')
+const AddressEdit = () => import('views/profile/AddressEdit')
 
 const routes = [
   {
@@ -81,22 +83,22 @@ const routes = [
     }
   },
   {
-    path: '/test',
-    name: 'Test',
-    component: () => import('views/test/Test'),
+    path: '/address',
+    name: 'Address',
+    component: Address,
     meta: {
-      title: 'Ugo | Test'
-    },
-
+      title: 'Ugo | 地址管理',
+      isAuthRequired: true
+    }
   },
   {
-    path: '/test-v',
-    name: 'TestV',
-    component: () => import('views/test/TestVant'),
+    path: '/address-edit',
+    name: 'AddressEdit',
+    component: AddressEdit,
     meta: {
-      title: 'Ugo | Test'
-    },
-
+      title: 'Ugo | 编辑地址',
+      isAuthRequired: true
+    }
   },
 ]
 

@@ -14,6 +14,7 @@
 <script>
 import {ref} from 'vue'
 import { useRouter } from 'vue-router'
+import {useStore} from 'vuex'
 
 import { Toast } from 'vant'
 
@@ -31,27 +32,31 @@ export default {
     },
   },
   setup(props) {
-
     const router = useRouter()
+    const store = useStore()
 
     const collected = ref(false)
 
     const collectClick = () => {
-      // console.log('collected !')
-      collected.value = !collected.value
-      if (collected.value) {
-        Toast('收藏成功！')
-        props.product.goods.collect += 1
 
-        // 发送网络请求
-        // ...
+      if (store.state.user.isLogin) {
+        collected.value = !collected.value
+        if (collected.value) {
+          Toast('收藏成功！')
+          props.product.goods.collect += 1
+
+          // 发送网络请求
+          // ...
+
+        } else {
+          Toast('取消收藏成功！')
+          props.product.goods.collect -= 1
+          // 发送网络请求
+          // ...
+        }
       } else {
-        Toast('取消收藏成功！')
-        props.product.goods.collect -= 1
-        // 发送网络请求
-        // ...
+       Toast.fail("请先登录")
       }
-
     }
 
     const toGoodsDetail = (id) => {
