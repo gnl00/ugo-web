@@ -72,7 +72,7 @@
 </template>
 
 <script>
-import {ref, reactive, onMounted} from 'vue'
+import {ref, reactive, onMounted, onUpdated, watch, watchEffect} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 

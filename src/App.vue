@@ -1,6 +1,6 @@
 <template>
 
-  <router-view v-slot="{ Component }">
+  <router-view v-slot="{ Component }" :key="key" >
     <transition>
       <keep-alive exclude="Detail,Search,Cart,Address,AddressEdit" >
         <component :is="Component" />
@@ -12,6 +12,8 @@
 </template>
 
 <script>
+import {ref, computed} from 'vue'
+import {useRoute} from 'vue-router'
 
 import MainTabbar from "@/components/content/mainTabbar/MainTabbar";
 
@@ -19,6 +21,16 @@ export default {
   name: 'App',
   components: {
     MainTabbar,
+  },
+  setup() {
+
+    const route = useRoute();
+
+    const key = computed(() => {
+      return route.name !== undefined ? route.name + new Date():route + new Date()
+    })
+
+    return {key}
   }
 }
 </script>

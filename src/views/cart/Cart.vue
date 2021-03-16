@@ -8,32 +8,25 @@
     </navbar>
     <div id="content" class="content">
       <van-checkbox-group ref="checkboxGroup" @change="groupChange" v-model="result" >
-        <van-swipe-cell v-for="(item, index) in list" :key="item.cart" @open="openCell(item.cart.id)">
+        <van-swipe-cell v-for="(item, index) in list" :key="item.cart" @open="openCell(item.cart.id)" style=" padding: 0 0 0 35px">
           <template #left>
-
             <van-checkbox :name="item.cart.id" icon-size="22px" style="margin: 0 5px 0 5px" > </van-checkbox>
-
-            <!--          <van-button round type="primary" text="选择"-->
-            <!--                      @click="checkClick(item.cart.id, item.cart.quantity, item.cart.price)" v-show="showChooseBtn" />-->
-            <!--          <van-button round type="danger" text="取消"-->
-            <!--                      @click="uncheckClick(item.cart.id, item.cart.quantity, item.cart.price)" v-show="showCancelBtn" />-->
-            <!--        -->
-
           </template>
 
-          <van-card class="goods-card"
-                    style="border-radius: 10px"
+          <van-card class="goods-card" :class="{isChoose: result.includes(item.cart.id)}"
+                    style="border-radius: 10px;"
                     :num="item.cart.quantity"
                     :price="Number(item.cart.price).toFixed(2)"
                     desc="描述信息..."
                     :title="item.goodsName"
-                    :thumb="item.picture[0]">
+                    :thumb="item.picture[0]"
+                    @click="$router.push('/detail?id=' + item.cart.goodsId )" >
 
             <template #footer>
-              <van-button size="small" @click="modifyCartClick(item.cart.id, -1)" :disabled="item.cart.quantity==1">
+              <van-button round size="small" type="warning" @click="modifyCartClick(item.cart.id, -1)" :disabled="item.cart.quantity==1">
                 <van-icon name="minus" />
               </van-button>
-              <van-button size="small" @click="modifyCartClick(item.cart.id,1)" >
+              <van-button round size="small" type="primary" @click="modifyCartClick(item.cart.id,1)" >
                 <van-icon name="plus" />
               </van-button>
             </template>
@@ -54,7 +47,7 @@
         <span style="font-size: 24px;color: red">￥{{computeTotal}}</span>
       </div>
       <div class="button-area">
-        <van-button type="warning" round size="large" @click="payClick">结算</van-button>
+        <van-button type="danger" round size="large" @click="payClick">结算</van-button>
       </div>
     </div>
 
@@ -168,7 +161,7 @@ export default {
     const openCell = (cartId) => {
       console.log('我开啦', cartId)
 
-      console.log(state.result.includes(cartId))
+      // console.log(state.result.includes(cartId))
 
     }
 
@@ -280,6 +273,10 @@ export default {
 
 .content {
   margin-bottom: 100px;
+}
+
+.isChoose {
+  background-color: #b7ddfa;
 }
 
 .footer-menu {

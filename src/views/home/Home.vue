@@ -38,7 +38,7 @@
 <script>
 // @ is an alias to /src
 import {onMounted, ref, reactive, computed, watch , watchEffect, nextTick, onDeactivated, onUpdated} from 'vue'
-import {useRouter} from 'vue-router'
+import {useRouter, useRoute} from 'vue-router'
 
 import {Toast} from "vant";
 
@@ -62,6 +62,7 @@ export default {
   setup() {
 
     const router = useRouter();
+    const route = useRoute();
 
     const keyWord = ref(null)
 
@@ -134,7 +135,9 @@ export default {
               goods[currentType.value].page = res.data.home.page
             } else {
               // console.log('data == null')
-              Toast('暂时没有更多数据啦~')
+              if (route.name.indexOf("Home") === 0) {
+                Toast('暂时没有更多数据啦~')
+              }
             }
 
           }).catch(err => {
@@ -200,7 +203,7 @@ export default {
 
 
     const backTop = () => {
-      console.log('back to top now')
+      // console.log('back to top now')
       document.getElementById('home').scrollIntoView({
         behavior: "smooth"
       })
