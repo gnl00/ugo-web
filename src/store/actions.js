@@ -6,8 +6,14 @@ const actions = {
 
   updateCartCount({commit}) {
     getCart().then(res => {
-      // console.log(res)
-      commit(ADDTOCART, res.data.length || 0)
+      // console.log('updateCartCount', res)
+
+      if (res.data !== null) {
+        commit(ADDTOCART, res.data.length || 0)
+      } else {
+        commit(ADDTOCART, 0)
+      }
+
     }).catch(err => {
 
     })

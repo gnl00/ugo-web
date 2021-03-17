@@ -36,9 +36,9 @@
       </van-tab>
     </van-tabs>
 
-    <div class="footer-menu">
-      <div class="icon-area">
-        <div class="shop" @click="shopClick">
+    <van-submit-bar label="单价：" :price="goods.info.price * 100" button-text="加入购物车" @submit="addCartClick(goods.info.id)" >
+      <div style="display: flex">
+        <div class="shop" @click="shopClick" style="flex: 1; margin-right: 15px" >
           <div>
             <i class="iconfont icon-dianpu" style="font-size: 20px"></i>
           </div>
@@ -46,13 +46,13 @@
             <span style="font-size: 13px">店铺</span>
           </div>
         </div>
-        <div class="service" @click="serviceClick">
+        <div class="service" @click="serviceClick" style="flex: 1; margin-right: 15px" >
           <div>
             <i class="iconfont icon-buoumaotubiao10" style="font-size: 20px"></i>
           </div>
           <div><span style="font-size: 13px">客服</span></div>
         </div>
-        <div class="collect" @click="collectClick(goods.info.id)">
+        <div class="collect" @click="collectClick(goods.info.id)" style="flex: 1" >
           <div>
             <i class="iconfont icon-love-b" :class="{collected: collectStatus}" style="font-size: 20px"></i>
           </div>
@@ -61,18 +61,14 @@
           </div>
         </div>
       </div>
-      <div class="button-area">
-        <van-button type="warning" @click="addCartClick(goods.info.id)">加入购物车</van-button>
-        <van-button type="danger" @click="buyNowClick(goods.info.id)">立即购买</van-button>
-      </div>
-    </div>
+    </van-submit-bar>
 
 
   </div>
 </template>
 
 <script>
-import {ref, reactive, onMounted, onUpdated, watch, watchEffect} from 'vue'
+import {ref, reactive, onMounted} from 'vue'
 import {useRoute, useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 
@@ -152,7 +148,7 @@ export default {
 
       if (store.state.user.isLogin) {
         addCart(goodsId, 1).then(res => {
-          console.log(res)
+          // console.log(res)
 
           if (res.code == 200) {
 
@@ -170,9 +166,9 @@ export default {
 
     }
 
-    const buyNowClick = () => {
+    const buyNowClick = (goodsId) => {
       if (store.state.user.isLogin) {
-        Toast('正在处理中...')
+        Toast.loading('正在处理中...')
       } else {
         Toast.fail("请先登录")
       }
@@ -212,36 +208,14 @@ export default {
   margin-bottom: 80px;
 }
 
-.footer-menu {
-  height: 45px;
-  position: relative;
-  background-color: white;
-  display: flex;
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 48px;
+.van-submit-bar {
+  margin-bottom: 50px;
+  z-index: 8;
+}
 
-  .icon-area {
-    text-align: center;
-    display: flex;
-    padding-top: 3px;
-
-    div {
-      margin-left: 15px;
-    }
-
-    .collected {
-      color: #ffd500;
-    }
-
-  }
-
-  .button-area {
-    position: absolute;
-    top: 0;
-    right: 0;
-  }
+.collected {
+  color: #eec705;
+  background-color: #eec705;
 }
 
 </style>

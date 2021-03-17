@@ -23,7 +23,7 @@
 </template>
 
 <script>
-import {ref, reactive, toRefs, onMounted} from 'vue'
+import {reactive, toRefs, onMounted} from 'vue'
 import {useRouter} from 'vue-router'
 
 import {getAddress} from "@/network/address";
@@ -52,9 +52,6 @@ export default {
     }
 
     const onEdit = (addressInfo) => {
-
-      // console.log(value)
-
       router.push({
         path: '/address-edit',
         query: {
@@ -64,10 +61,9 @@ export default {
       })
     }
 
-    onMounted(() => {
+    const getAddressList = () => {
       getAddress().then(res => {
         // console.log(res)
-
         state.list = res.data.addresses.map(item => {
           return {
             id: item.id,
@@ -87,6 +83,10 @@ export default {
       }).catch(err => {
         console.log(err)
       })
+    }
+
+    onMounted(() => {
+      getAddressList()
     })
 
     return {

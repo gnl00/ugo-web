@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-cloak>
     <van-swipe class="my-swipe" :autoplay="3000" indicator-color="white">
       <van-swipe-item>
         <img src="~assets/images/swipe/swipe-1.jpg">
@@ -21,6 +21,10 @@ export default {
 </script>
 
 <style scoped lang="scss">
+[v-cloak] {
+  display: none;
+}
+
 .my-swipe, van-swipe-item {
   color: #fff;
   font-size: 20px;

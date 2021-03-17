@@ -194,7 +194,6 @@ export default {
 
   .order {
     text-align: center;
-    height: 55px;
     flex: 1;
     float: right;
     z-index: 9;
@@ -215,12 +214,17 @@ export default {
   .goods-list {
     flex: 1;
     position: absolute;
-    top: 100px;
+    top: 95px;
     left: 130px;
     right: 0;
     height: 100vh;
     padding: 10px;
   }
+}
+
+.van-card {
+  border-radius: 10px;
+
 }
 
 </style>

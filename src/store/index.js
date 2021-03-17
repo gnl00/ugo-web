@@ -11,7 +11,8 @@ const state = {
     isLogin: window.localStorage.getItem('ugo_token') ? true : false
   },
   cart: {
-    count: 0
+    count: 0,
+    checkedList: []
   }
 }
 

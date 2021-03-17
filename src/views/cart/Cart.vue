@@ -7,10 +7,11 @@
       <template v-slot:default>购物车管理</template>
     </navbar>
     <div id="content" class="content">
-      <van-checkbox-group ref="checkboxGroup" @change="groupChange" v-model="result" >
-        <van-swipe-cell v-for="(item, index) in list" :key="item.cart" @open="openCell(item.cart.id)" style=" padding: 0 0 0 35px">
+      <van-checkbox-group ref="checkboxGroup" @change="groupChange" v-model="result">
+        <van-swipe-cell v-for="(item, index) in list" :key="item.cart" @open="openCell(item.cart.id)"
+                        style=" padding: 0 0 0 35px">
           <template #left>
-            <van-checkbox :name="item.cart.id" icon-size="22px" style="margin: 0 5px 0 5px" > </van-checkbox>
+            <van-checkbox :name="item.cart.id" icon-size="22px" style="margin: 0 5px 0 5px"></van-checkbox>
           </template>
 
           <van-card class="goods-card" :class="{isChoose: result.includes(item.cart.id)}"
@@ -20,47 +21,42 @@
                     desc="描述信息..."
                     :title="item.goodsName"
                     :thumb="item.picture[0]"
-                    @click="$router.push('/detail?id=' + item.cart.goodsId )" >
+                    @click="$router.push('/detail?id=' + item.cart.goodsId )">
 
             <template #footer>
-              <van-button round size="small" type="warning" @click="modifyCartClick(item.cart.id, -1)" :disabled="item.cart.quantity==1">
-                <van-icon name="minus" />
+              <van-button round size="small" type="warning" @click.stop="modifyCartClick(item.cart.id, -1)"
+                          :disabled="item.cart.quantity==1">
+                <van-icon name="minus"/>
               </van-button>
-              <van-button round size="small" type="primary" @click="modifyCartClick(item.cart.id,1)" >
-                <van-icon name="plus" />
+              <van-button round size="small" type="primary" @click.stop="modifyCartClick(item.cart.id,1)">
+                <van-icon name="plus"/>
               </van-button>
             </template>
           </van-card>
 
           <template #right>
-            <van-button round text="删除" type="danger" class="delete-button" @click="cartDeleteClick(item.cart.id)" />
+            <van-button round text="删除" type="danger" class="delete-button" @click="cartDeleteClick(item.cart.id)"/>
           </template>
         </van-swipe-cell>
       </van-checkbox-group>
     </div>
 
-    <div class="footer-menu" style="border-top: 1px solid #eeeeee">
-      <div class="checked-area">
-        <van-checkbox v-model:checked="checkAll" icon-size="24px" @click="checkAllClick" >全选</van-checkbox>
-      </div>
-      <div class="count-area" style="padding: 10px 5px 10px 0; display: flex">
-        <span style="font-size: 24px;color: red">￥{{computeTotal}}</span>
-      </div>
-      <div class="button-area">
-        <van-button type="danger" round size="large" @click="payClick">结算</van-button>
-      </div>
-    </div>
+    <van-submit-bar style="margin-bottom: 50px; z-index: 8" :price="Number(computeTotal) * 100" button-text="提交订单" @submit="createOrderClick">
+      <van-checkbox v-model:checked="checkAll" @click="checkAllClick">全选</van-checkbox>
+    </van-submit-bar>
 
   </div>
 </template>
 
 <script>
-import {ref, reactive,toRefs, onMounted, onActivated, watch, computed} from 'vue'
+import {ref, reactive, toRefs, onMounted, computed} from 'vue'
 import {useStore} from 'vuex'
+import {useRouter} from 'vue-router'
 
 import {Toast, Dialog} from 'vant'
 
 import {getCart, modifyCart, checkCart, delCartItem} from "@/network/cart";
+import {createOrder} from "@/network/order";
 
 import Navbar from "@/components/content/navbar/Navbar";
 
@@ -68,17 +64,18 @@ export default {
   name: "Cart",
   components: {Navbar},
   data() {
-    return {
-    }
+    return {}
   },
   setup: function () {
 
     const store = useStore();
+    const router = useRouter();
 
     const state = reactive({
       list: [],
       result: [],
-      checkAll: false
+      checkAll: false,
+      checkedList: []
     })
 
     const init = () => {
@@ -88,12 +85,9 @@ export default {
       })
 
       getCart().then(res => {
-
         if (res.code === 200) {
           state.list = res.data
-
           state.result = res.data.filter(n => n.cart.isChecked == 1).map(item => item.cart.id)
-
           // console.log(state.result);
 
           // 选中的商品总结果长度相同即为全选
@@ -119,7 +113,6 @@ export default {
               item.cart.quantity += quantity
             }
           })
-
           init()
         }
 
@@ -131,6 +124,7 @@ export default {
 
     onMounted(() => {
       init()
+      store.dispatch('updateCartCount')
     })
 
     // 检查是否全选
@@ -187,12 +181,11 @@ export default {
         message: '确定删除该商品？',
       }).then(() => {
         // on confirm
-
         Toast.loading("删除中...")
 
-        console.log(cartId)
+        // console.log(cartId)
         delCartItem(cartId).then(res => {
-          console.log(res)
+          // console.log(res)
 
           if (res.code === 200) {
             Toast.success(res.msg)
@@ -208,9 +201,9 @@ export default {
           console.log(err)
 
         })
-       }).catch(() => {
-         // on cancel
-       });
+      }).catch(() => {
+        // on cancel
+      });
     }
 
     // 通过计算属性 计算购物车总价
@@ -226,25 +219,25 @@ export default {
 
     })
 
-    const payClick = () => {
+    const createOrderClick = () => {
       // 点击结算不用传输数据，直接从数据库中结算
 
       if (state.result.length == 0) {
         Toast.fail("请选择商品进行结算")
       } else {
 
-        console.log('pay now ...')
-
         Dialog.confirm({
-          title: '结算',
-          message: '确认付款',
-        })
-            .then(() => {
-              // on confirm
-            })
-            .catch(() => {
-              // on cancel
-            });
+          title: '生成订单',
+          message: '确认生成订单',
+        }).then(() => {
+          // console.log('to create-order')
+
+          setTimeout(() => {
+            router.push('/create-order')
+          }, 500)
+
+        }).catch(() => {});
+
       }
     }
 
@@ -256,7 +249,7 @@ export default {
       groupChange,
       cartDeleteClick,
       computeTotal,
-      payClick
+      createOrderClick
     }
   }
 }
@@ -266,6 +259,7 @@ export default {
 
 .cart {
   margin-top: var(--navbar-height);
+
   img {
     width: 100%;
   }
@@ -277,29 +271,6 @@ export default {
 
 .isChoose {
   background-color: #b7ddfa;
-}
-
-.footer-menu {
-  width: 100%;
-  bottom: 50px;
-  position: fixed;
-  background-color: white;
-  display: flex;
-
-  .checked-area {
-    flex: 1;
-    display: flex;
-    padding: 10px;
-    text-align: center;
-  }
-  .count-area {
-
-    flex: 1;
-  }
-  .button-area {
-    flex: 1;
-  }
-
 }
 
 </style>
@@ -321,6 +292,7 @@ export default {
 .van-card__price-integer {
   font-size: 22px;
 }
+
 .van-card__price {
   font-size: 18px;
 }

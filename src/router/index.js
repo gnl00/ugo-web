@@ -10,10 +10,12 @@ const Category = () => import('views/category/Category')
 const Detail = () => import('views/detail/Detail')
 const Cart = () => import('views/cart/Cart')
 const Profile = () => import('views/profile/Profile')
-const Register = () => import('views/profile/Register')
-const Login = () => import('views/profile/Login')
-const Address = () => import('views/profile/Address')
-const AddressEdit = () => import('views/profile/AddressEdit')
+const Register = () => import('views/profile/auth/Register')
+const Login = () => import('views/profile/auth/Login')
+const Address = () => import('views/profile/address/Address')
+const AddressEdit = () => import('views/profile/address/AddressEdit')
+const Order = () => import('views/profile/order/Order')
+const CreateOrder = () => import('views/profile/order/CreateOrder')
 
 const routes = [
   {
@@ -97,6 +99,24 @@ const routes = [
     component: AddressEdit,
     meta: {
       title: 'Ugo | 编辑地址',
+      isAuthRequired: true
+    }
+  },
+  {
+    path: '/order',
+    name: 'Order',
+    component: Order,
+    meta: {
+      title: 'Ugo | 订单管理',
+      isAuthRequired: true
+    }
+  },
+  {
+    path: '/create-order',
+    name: 'CreateOrder',
+    component: CreateOrder,
+    meta: {
+      title: 'Ugo | 生成订单',
       isAuthRequired: true
     }
   },

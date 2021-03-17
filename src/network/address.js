@@ -24,6 +24,12 @@ export function addAddress(data) {
   })
 }
 
+// 获取到默认地址
+export function getDefaultAddress() {
+  return request({
+    url: '/add/default'
+  })
+}
 
 export function delAddress(id) {
   return request({
