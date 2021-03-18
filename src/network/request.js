@@ -36,7 +36,18 @@ export function request(config) {
   // 响应拦截 1. 响应成功 2. 响应失败
   instance.interceptors.response.use(
     res => {
-      // console.log('响应成功',res)
+      console.log('响应成功',res)
+
+      if(res.data.msg == '登录身份过期，请重新登录') {
+
+        window.localStorage.setItem('ugo_token', '')
+
+        Toast.fail(res.data.msg)
+
+        setTimeout(() => {
+          router.push("/login")
+        }, 1000)
+      }
 
       // if (res.data.code != 200) {
       //   console.log('12333')

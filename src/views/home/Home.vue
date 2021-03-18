@@ -154,7 +154,7 @@ export default {
       getHomeAllData().then(res => {
         recommends.value = res.data.recommend
         goods.hot.list = res.data.home.data
-        // console.log(home_goods.value)
+
       }).catch(err => {
         console.log(err)
       })
