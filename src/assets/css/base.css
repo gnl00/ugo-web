@@ -3,9 +3,9 @@
 /* root 设置 */
 :root {
     --color-text: #666;
-    --color-highlight-text: #42bbaa;
+    --color-highlight-text: #67abe7;
     /* #42b983 */
-    --color-tint: #42b983;
+    --color-tint: #699cee;
     --color-background: #ECF0F1;
     --font-size: 14px;
     --line-height: 1.5;

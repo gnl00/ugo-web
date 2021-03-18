@@ -9,7 +9,7 @@
         <van-search
             v-model="keyWord"
             shape="round"
-            background="#4fc08d"
+            background="#699cee"
             placeholder="请输入搜索关键词"
             @keydown.enter="onSearch"
         />
@@ -95,7 +95,7 @@ export default {
       // 滚动条跳转到指定高度
       document.documentElement.scrollTop = 490
 
-      console.log('tabCurrentIndex')
+      // console.log('tabCurrentIndex')
     }
 
     const showGoods = computed(() => {

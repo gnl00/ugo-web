@@ -4,7 +4,7 @@
     <div class="goods-info">
       <p>{{product.goods.name}}</p>
       <span class="price"><small>￥</small>{{product.goods.price.toFixed(2)}}</span>
-      <span class="collect" @click.stop="collectClick">
+      <span class="collect" @click.stop="collectClick(product.goods.id)">
         <i class="iconfont icon-shoucang" :class="{collected}"></i>&nbsp;{{product.goods.collect}}
       </span>
     </div>
@@ -18,8 +18,7 @@ import {useStore} from 'vuex'
 
 import { Toast } from 'vant'
 
-import { getPicture } from '@/network/home'
-
+import {addCollection, removeCollection} from "@/network/collect";
 
 export default {
   name: "GoodsListItem",
@@ -37,22 +36,39 @@ export default {
 
     const collected = ref(false)
 
-    const collectClick = () => {
+    const collectClick = (goodsId) => {
 
       if (store.state.user.isLogin) {
         collected.value = !collected.value
         if (collected.value) {
-          Toast('收藏成功！')
           props.product.goods.collect += 1
 
           // 发送网络请求
-          // ...
+          addCollection(goodsId).then(res => {
+            //console.log(res)
+
+            if (res.code === 200) {
+              Toast.success('收藏成功！')
+            }
+
+          }).catch(err => {
+            console.log(err)
+          })
 
         } else {
-          Toast('取消收藏成功！')
           props.product.goods.collect -= 1
           // 发送网络请求
-          // ...
+          removeCollection(goodsId).then(res => {
+            //console.log(res)
+
+            if (res.code ===200) {
+              Toast.success('取消收藏成功！')
+            }
+
+          }).catch(err => {
+            console.log(err)
+          })
+
         }
       } else {
        Toast.fail("请先登录")

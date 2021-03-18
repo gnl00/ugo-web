@@ -52,21 +52,23 @@ export default {
 
     const getAddressById = () => {
       let addId = route.query.id
-      getAddressByAddressId(addId).then(res => {
-        // console.log(res)
+      if (addId != null) {
+        getAddressByAddressId(addId).then(res => {
+          // console.log(res)
 
-        state.address = {
-          id: res.data.id,
-          name: res.data.recipient,
-          tel: res.data.phone,
-          addressDetail: res.data.address,
-          postalCode: res.data.postalCode,
-          isDefault: res.data.isDefault == 1 ? true : false
-        }
+          state.address = {
+            id: res.data.id,
+            name: res.data.recipient,
+            tel: res.data.phone,
+            addressDetail: res.data.address,
+            postalCode: res.data.postalCode,
+            isDefault: res.data.isDefault == 1 ? true : false
+          }
 
-      }).catch(err => {
-        console.log(err)
-      })
+        }).catch(err => {
+          console.log(err)
+        })
+      }
     }
 
     onMounted(() => {

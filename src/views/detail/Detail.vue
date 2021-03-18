@@ -57,12 +57,13 @@
             <i class="iconfont icon-love-b" :class="{collected: collectStatus}" style="font-size: 20px"></i>
           </div>
           <div>
-            <span style="font-size: 13px">收藏</span>
+            <span style="font-size: 13px" :class="{collected: collectStatus}" >收藏</span>
           </div>
         </div>
       </div>
     </van-submit-bar>
 
+    <back-to-top v-show="showTapToTop" @backTop="backTop" style="margin-bottom: 50px" />
 
   </div>
 </template>
@@ -76,16 +77,17 @@ import {Toast} from 'vant'
 
 import {getGoodsById} from "@/network/detail";
 import {addCart} from "@/network/cart";
+import {addCollection, removeCollection} from "@/network/collect";
 
 import Navbar from "@/components/content/navbar/Navbar";
 import GoodsList from "@/components/content/goods/GoodsList";
+import BackToTop from "@/components/common/backToTop/BackToTop";
 
 export default {
   name: "Detail",
-  components: {GoodsList, Navbar},
+  components: {BackToTop, GoodsList, Navbar},
   setup() {
     const route = useRoute();
-    const router = useRouter();
     const store = useStore();
 
     let goods_id = ref(0)
@@ -98,6 +100,12 @@ export default {
     })
 
     const active = ref(1)
+
+    const collectStatus = ref(false);
+
+    const checkCollectStatus = () => {
+
+    }
 
     onMounted(() => {
 
@@ -115,20 +123,41 @@ export default {
       }).catch(err => {
         console.log(err)
       })
-
+      handleScroll()
     })
-
-    const collectStatus = ref(false);
 
     const collectClick = (goodsId) => {
 
       if (store.state.user.isLogin) {
         collectStatus.value = !collectStatus.value
+
         if (collectStatus.value) {
-          Toast('收藏成功！')
+
+          // 发送网络请求
+          addCollection(goodsId).then(res => {
+
+            if (res.code === 200) {
+              Toast.success('收藏成功！')
+            }
+
+          }).catch(err => {
+            console.log(err)
+          })
+
         } else {
-          Toast('取消收藏成功！')
+
+          removeCollection(goodsId).then(res => {
+
+            if (res.code ===200) {
+              Toast.success('取消收藏成功！')
+            }
+
+          }).catch(err => {
+            console.log(err)
+          })
+
         }
+
       } else {
         Toast.fail("请先登录")
       }
@@ -174,6 +203,28 @@ export default {
       }
     }
 
+    const showTapToTop = ref(false)
+
+    const handleScroll = () => {
+      window.onscroll = () => {
+
+        // 是否显示tapToTop
+        let scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (scrollTop > 475){
+          showTapToTop.value = true
+        } else {
+          showTapToTop.value = false
+        }
+      }
+    }
+
+    const backTop = () => {
+      // console.log('back to top now')
+      document.getElementById('detail').scrollIntoView({
+        behavior: "smooth"
+      })
+    }
+
     return {
       active,
       goods_id,
@@ -183,7 +234,9 @@ export default {
       shopClick,
       serviceClick,
       addCartClick,
-      buyNowClick
+      buyNowClick,
+      showTapToTop,
+      backTop
     }
   }
 }
@@ -215,7 +268,6 @@ export default {
 
 .collected {
   color: #eec705;
-  background-color: #eec705;
 }
 
 </style>

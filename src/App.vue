@@ -2,7 +2,7 @@
 
   <router-view v-slot="{ Component }" :key="key" >
     <transition>
-      <keep-alive exclude="Detail,Search,Cart,Address,AddressEdit" >
+      <keep-alive exclude="Detail,Search,Cart,Address,AddressEdit,Collect" >
         <component :is="Component" />
       </keep-alive>
     </transition>

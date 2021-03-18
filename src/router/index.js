@@ -16,6 +16,7 @@ const Address = () => import('views/profile/address/Address')
 const AddressEdit = () => import('views/profile/address/AddressEdit')
 const Order = () => import('views/profile/order/Order')
 const CreateOrder = () => import('views/profile/order/CreateOrder')
+const Collect = () => import('views/profile/collect/Collect')
 
 const routes = [
   {
@@ -117,6 +118,15 @@ const routes = [
     component: CreateOrder,
     meta: {
       title: 'Ugo | 生成订单',
+      isAuthRequired: true
+    }
+  },
+  {
+    path: '/collect',
+    name: 'Collect',
+    component: Collect,
+    meta: {
+      title: 'Ugo | 商品收藏',
       isAuthRequired: true
     }
   },

@@ -1,5 +1,5 @@
 <template>
-  <div id="profile" class="profile">
+  <div id="profile" class="profile" v-cloak>
     <navbar>
       <template v-slot:left>
         <i class="iconfont icon-fanhui"></i>
@@ -8,8 +8,7 @@
     </navbar>
 
     <div id="header" class="header" style="padding-bottom: 10px">
-      <van-tag round size="big" style="margin-right: 5px" type="danger">VIP5</van-tag>
-
+      <van-tag plain size="large" style="margin-right: 5px" type="primary">{{username}}</van-tag>
       <van-image
           round
           fit="cover"
@@ -17,9 +16,7 @@
           height="10rem"
           :src="require('@/assets/images/1.jpg')"
       />
-
-      <van-tag plain type="warning">购物达人</van-tag>
-
+      <van-tag round size="big" style="margin-right: 5px" type="danger">VIP5</van-tag>
 
     </div>
 
@@ -28,12 +25,10 @@
       <van-grid-item icon="clock-o" text="待发货"/>
       <van-grid-item icon="todo-list-o" text="待收货"/>
       <van-grid-item icon="label-o" text="订单管理" @click="goTo('/order')" />
-
     </van-grid>
 
 
     <van-grid class="feature" :gutter="1">
-
       <van-grid-item icon="star-o" text="收藏" @click="goTo('/collect')" />
       <van-grid-item icon="coupon-o" text="优惠券"/>
       <van-grid-item icon="browsing-history-o" text="最近访问"/>
@@ -60,7 +55,7 @@ import {useStore} from 'vuex'
 
 import {Toast} from 'vant'
 
-import {logout} from "@/network/user";
+import {logout, getUserInfo} from "@/network/user";
 
 import {SETISLOGIN, ADDTOCART} from "@/store/mutations-types";
 
@@ -78,7 +73,7 @@ export default {
     const store = useStore();
 
     const state = reactive({
-      user: {}
+      username: ''
     })
 
     const allowLogoutClick = ref(false)
@@ -123,12 +118,26 @@ export default {
       })
     }
 
+    const getUser = () => {
+      getUserInfo().then(res => {
+        // console.log(res)
+
+        if (res.code === 200) {
+          state.username = res.data
+        }
+
+      }).catch(err => {
+        console.log(err)
+      })
+    }
+
     onMounted(() => {
       checkLoginStatus()
     })
 
     onUpdated(() => {
       checkLoginStatus()
+      getUser()
     })
 
     const goTo = (path) => {
@@ -148,6 +157,9 @@ export default {
 </script>
 
 <style scoped lang="scss">
+[v-cloak] {
+  display: none;
+}
 
 .profile {
   margin-top: var(--navbar-height);

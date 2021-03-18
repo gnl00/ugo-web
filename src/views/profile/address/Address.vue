@@ -9,7 +9,6 @@
   </navbar>
 
   <div id="content" class="content">
-
     <van-address-list
         v-model="chosenAddressId"
         :list="list"
@@ -110,7 +109,7 @@ export default {
 
 .van-address-list__bottom {
   background-color: #0000;
-  bottom: calc(var(--navbar-height) + 5px)
+  bottom: calc(var(--navbar-height) + 10px)
 }
 
 </style>

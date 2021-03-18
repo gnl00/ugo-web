@@ -5,7 +5,7 @@ import store from './store'
 // 按需引入vant组件
 import { Swipe, SwipeItem, Search, Image as VanImage, Lazyload,Form,Field,Icon,Progress,Col,Stepper,
   Row,Circle,SwipeCell,Badge, Sidebar, SidebarItem,Collapse, CollapseItem,Tab, Tabs,Card,Grid,Checkbox,CheckboxGroup,
-  GridItem,Button, Tag,DropdownMenu, DropdownItem,AddressList, AddressEdit,ContactCard,SubmitBar,
+  GridItem,Button, Tag,DropdownMenu, DropdownItem,AddressList, AddressEdit,ContactCard,SubmitBar,Step, Steps,
   Tabbar, TabbarItem, PullRefresh } from 'vant';
 // 引入vant全局样式
 import 'vant/lib/index.css';
@@ -53,6 +53,8 @@ createApp(App)
   .use(AddressEdit)
   .use(ContactCard)
   .use(SubmitBar)
+  .use(Step)
+  .use(Steps)
   .use(Tabbar)
   .use(TabbarItem)
   .use(PullRefresh)
