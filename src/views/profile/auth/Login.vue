@@ -44,11 +44,13 @@
 </template>
 
 <script>
-import {ref,reactive,toRefs,onMounted} from 'vue'
+import {reactive,toRefs} from 'vue'
 import {useRouter} from 'vue-router'
 import {useStore} from 'vuex'
 
 import { Toast,Notify } from 'vant';
+
+import {encoded} from '@/util/passowrdUtils'
 
 import {login} from "@/network/user";
 
@@ -70,6 +72,10 @@ export default {
     })
 
     const onSubmit = () => {
+
+      let rawPassword = user_info.password
+      user_info.password = encoded(rawPassword)
+
       login(user_info).then(res => {
         // console.log(res)
 

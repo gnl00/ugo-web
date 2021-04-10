@@ -36,7 +36,7 @@ export function request(config) {
   // 响应拦截 1. 响应成功 2. 响应失败
   instance.interceptors.response.use(
     res => {
-      console.log('响应成功',res)
+      // console.log('响应成功',res)
 
       if(res.data.msg == '登录身份过期，请重新登录') {
 
@@ -57,7 +57,7 @@ export function request(config) {
       // 只需要返回data数据即可
       return res.data
     }, err => {
-      console.log('响应失败',err)
+      // console.log('响应失败',err)
 
       if (err.response.statusCode != 200) {
         Toast.fail(err.response.statusText)

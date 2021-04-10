@@ -59,14 +59,17 @@
 </template>
 
 <script>
-import {ref,reactive,toRefs,onMounted} from 'vue'
+import {reactive,toRefs} from 'vue'
 import {useRouter} from 'vue-router'
 
 import { Notify,Toast } from 'vant';
 
+import {encoded} from '@/util/passowrdUtils'
+
 import {register} from "@/network/user";
 
 import Navbar from "@/components/content/navbar/Navbar";
+
 export default {
   name: "Register",
   components: {Navbar},
@@ -88,6 +91,8 @@ export default {
         Notify('两次密码不一致!');
         return false;
       } else {
+        let rawPassword = user_info.password
+        user_info.password = encoded(rawPassword)
         register(user_info).then(res => {
 
           if (res.code == 200){
